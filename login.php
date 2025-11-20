@@ -59,11 +59,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
 
-    <link href="inspinia-master/HTML5_Full_Version/css/bootstrap.min.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="inspinia-master/HTML5_Full_Version/css/animate.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/css/style.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 </head>
 
@@ -98,9 +98,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </div>
 
 <!-- Mainly scripts -->
-<script src="inspinia-master/HTML5_Full_Version/js/jquery-3.1.1.min.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/popper.min.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/bootstrap.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.js"></script>
 
 </body>
 
