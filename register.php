@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'config.php';
+require_once "config.php";
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = trim($_POST['name']);
     $surname = trim($_POST['surname']);
     $email = trim($_POST['email']);
-    $adress = trim($_POST['adress']);
+    $address = trim($_POST['address']);
     $birthday = trim($_POST['birthday']);
     $password = $_POST['password'];
     $confirmpassword = $_POST['confirmpassword'];
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
 
-    $stmt = $conn->prepare("SELECT id FROM `user` WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id FROM `users` WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
@@ -66,8 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    $stmt = $conn->prepare("INSERT INTO `user` (name, surname, email, adress, password, birthday) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $surname, $email, $adress, $hashed_password, $birthday);
+    $stmt = $conn->prepare("INSERT INTO `users` (name, surname, email, address, password, birthday) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $surname, $email, $address, $hashed_password, $birthday);
     $stmt->execute();
     $stmt->close();
 
@@ -129,7 +129,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div>
         <h3 class="tittle">Register form</h3>
 
-        <form action="/regjistrimi/register.php" method="post">
+        <form action="register.php" method="post">
 
             <div class="form-group">
                 <input type="text" name="name" class="form-control" placeholder="Name" required>
