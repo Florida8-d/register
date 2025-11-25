@@ -11,7 +11,7 @@ require 'PHPMailer/src/Exception.php';
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $email = trim($_POST['email']);
 
-    $stmt = $conn->prepare("SELECT id FROM user WHERE email = ?");
+    $stmt = $conn->prepare("SELECT id FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
@@ -66,11 +66,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <title>INSPINIA | Forgot password</title>
 
-    <link href="inspinia-master/HTML5_Full_Version/css/bootstrap.min.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="inspinia-master/HTML5_Full_Version/css/animate.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/css/style.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 </head>
 

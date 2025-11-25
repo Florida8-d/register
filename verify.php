@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             unset($_SESSION['verification_code']);
 
-            header("Location:index.html");
+            header("Location:index.php");
 
             exit();
         } else {
@@ -32,24 +32,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <link href="inspinia-master/HTML5_Full_Version/css/bootstrap.min.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
-    <link href="inspinia-master/HTML5_Full_Version/css/animate.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/css/style.css" rel="stylesheet">
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 </head>
 
 <body class="gray-bg">
 
-<div class="middle-box text-center loginscreen animated fadeInDown">
-<form method="post">
-    <input type="text" name="code" placeholder="Enter verification code" required>
-    <button type="submit">Verify</button>
-</form>
+<div class="middle-box text-center loginscreen animated fadeInDown form-group"">
+    <form method="post">
+        <input type="text" name="code" class="form-control" placeholder="Enter verification code" style="margin-top: 180;" required>
+        <button type="submit" class="btn btn-primary block full-width m-b" style="margin-top:34px;">Verify</button>
+    </form>
 </div>
+
 </body>
-<script src="inspinia-master/HTML5_Full_Version/js/jquery-3.1.1.min.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/popper.min.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/bootstrap.js"></script>
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.js"></script>
 </html>
