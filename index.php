@@ -4,6 +4,30 @@
 *  version 2.8
 *
 -->
+<?php
+session_start();
+
+
+require_once "config.php";
+
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit;
+}
+
+if ($_SESSION['user']['role'] != 'user') {
+    header("Location: index.php");
+    exit;
+}
+
+if (isset($_SESSION['register_data'])) {
+    unset($_SESSION['register_data']);
+}
+
+$sql = "SELECT id, name, surname, email, role FROM users";
+$result = $conn->query($sql);
+?>
+
 
 <!DOCTYPE html>
 <html>
@@ -37,6 +61,7 @@
         <div id="page-wrapper" class="gray-bg dashbard-1">
             <?php require_once 'navbar.php'?>
 
+            <h2>adewrf</h2>
             <?php require_once 'footer.php'?>
         </div>
     </div>

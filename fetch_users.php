@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 require_once "config.php";
 
 $user = [];
-$sql = "SELECT id, name, surname, email, number, adress, role, birthday FROM user";
+$sql = "SELECT id, name, surname, email, address, role, birthday,email_verified FROM users";
 $result = $conn->query($sql);
 while ($row = $result->fetch_assoc()) {
     $user[] = $row;

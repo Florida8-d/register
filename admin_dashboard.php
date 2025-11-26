@@ -18,11 +18,15 @@ if (isset($_SESSION['register_data'])) {
     unset($_SESSION['register_data']);
 }
 
-$sql = "SELECT id, name, surname, email, role FROM user";
+$sql = "SELECT id, name, surname, email, role FROM users";
 $result = $conn->query($sql);
 ?>
 
+
+
+<!DOCTYPE html>
 <html>
+
 <head>
 
     <meta charset="utf-8">
@@ -31,160 +35,111 @@ $result = $conn->query($sql);
 
     <title>INSPINIA | Dashboard</title>
 
-    <link href="inspinia-master/HTML5_Full_Version/css/bootstrap.min.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
 
     <!-- Toastr style -->
-    <link href="inspinia-master/HTML5_Full_Version/css/plugins/toastr/toastr.min.css" rel="stylesheet">
+    <link href="css/plugins/toastr/toastr.min.css" rel="stylesheet">
 
     <!-- Gritter -->
-    <link href="inspinia-master/HTML5_Full_Version/js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
+    <link href="js/plugins/gritter/jquery.gritter.css" rel="stylesheet">
 
-    <link href="inspinia-master/HTML5_Full_Version/css/animate.css" rel="stylesheet">
-    <link href="inspinia-master/HTML5_Full_Version/css/style.css" rel="stylesheet">
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
-    <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
 
 
-
-    <script>
-        $(document).ready(function() {
-            $('#userTable').DataTable({
-                "ajax": "fetch_users.php",
-                "columns": [
-                    { "data": "id" },
-                    { "data": "name" },
-                    { "data": "surname" },
-                    { "data": "email" },
-                    { "data": "adress" },
-                    { "data": "role" },
-                    { "data": "birthday" },
-                ]
-            });
-        });
-    </script>
 
 </head>
+
+<body>
 <div id="wrapper">
-    <nav class="navbar-default navbar-static-side" role="navigation">
-        <div class="sidebar-collapse">
-            <ul class="nav metismenu" id="side-menu">
-                <li class="nav-header">
-                    <div class="dropdown profile-element">
-                            <span class="block m-t-xs font-bold">Admin</span>
-                        </a>
-
-                    </div>
-
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-th-large"></i> <span class="nav-label">Users</span> <span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-
-                    </ul>
-                </li>
-
-
-
-            </ul>
-                </li>
-
-
-
-            </ul>
-
-        </div>
-    </nav>
+    <?php require_once 'admin_sidebar.php'; ?>
 
     <div id="page-wrapper" class="gray-bg dashbard-1">
-        <div class="row border-bottom">
-            <nav class="navbar navbar-static-top" role="navigation" style="margin-bottom: 0">
-                <div class="navbar-header">
-                    <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                    <form role="search" class="navbar-form-custom" action="search_results.html">
+        <?php require_once 'navbar.php'?>
 
-                    </form>
-                </div>
-
-
-            </nav>
-        </div>
         <table id="userTable" class="table table-bordered table-striped">
-            <thead class="table-light">
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Surname</th>
-                <th>Email</th>
-                <th>Address</th>
-                <th>Role</th>
-                <th>Birthday</th>
-
-            </tr>
-            </thead>
-
-        </table>
-
-            </div>
+                        <thead class="table-light">
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Surname</th>
+                            <th>Email</th>
+                            <th>Address</th>
+                            <th>Role</th>
+                            <th>Birthday</th>
+                            <th>Verification</th>
 
 
+                        </tr>
+                        </thead>
 
-        </div>
-
-        <div class="footer">
-            <div class="float-right">
-                10GB of <strong>250GB</strong> Free.
-            </div>
-            <div>
-                <strong>Copyright</strong> Example Company &copy; 2014-2018
-            </div>
-        </div>
+                    </table>
+        <?php require_once 'footer.php'?>
     </div>
-
-
-
 </div>
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        $('#userTable').DataTable({
+            "ajax": "fetch_users.php",
+            "columns": [
+                { "data": "id" },
+                { "data": "name" },
+                { "data": "surname" },
+                { "data": "email" },
+                { "data": "address" },
+                { "data": "role" },
+                { "data": "birthday" },
+                { "data": "email_verified" },
+
+            ]
+        });
+    });
+</script>
+
 <!-- Mainly scripts -->
-<script src="inspinia-master/HTML5_Full_Version/js/popper.min.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/bootstrap.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/metisMenu/jquery.metisMenu.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+<script src="js/popper.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- Flot -->
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/flot/jquery.flot.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/flot/jquery.flot.tooltip.min.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/flot/jquery.flot.spline.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/flot/jquery.flot.resize.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/flot/jquery.flot.pie.js"></script>
+<script src="js/plugins/flot/jquery.flot.js"></script>
+<script src="js/plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script src="js/plugins/flot/jquery.flot.spline.js"></script>
+<script src="js/plugins/flot/jquery.flot.resize.js"></script>
+<script src="js/plugins/flot/jquery.flot.pie.js"></script>
 
 <!-- Peity -->
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/peity/jquery.peity.min.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/demo/peity-demo.js"></script>
+<script src="js/plugins/peity/jquery.peity.min.js"></script>
+<script src="js/demo/peity-demo.js"></script>
 
 <!-- Custom and plugin javascript -->
-<script src="inspinia-master/HTML5_Full_Version/js/inspinia.js"></script>
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/pace/pace.min.js"></script>
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
 
 <!-- jQuery UI -->
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/jquery-ui/jquery-ui.min.js"></script>
+<!--<script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>-->
 
 <!-- GITTER -->
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/gritter/jquery.gritter.min.js"></script>
+<script src="js/plugins/gritter/jquery.gritter.min.js"></script>
 
 <!-- Sparkline -->
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/sparkline/jquery.sparkline.min.js"></script>
+<script src="js/plugins/sparkline/jquery.sparkline.min.js"></script>
 
 <!-- Sparkline demo data  -->
-<script src="inspinia-master/HTML5_Full_Version/js/demo/sparkline-demo.js"></script>
+<script src="js/demo/sparkline-demo.js"></script>
 
 <!-- ChartJS-->
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/chartJs/Chart.min.js"></script>
+<script src="js/plugins/chartJs/Chart.min.js"></script>
 
 <!-- Toastr -->
-<script src="inspinia-master/HTML5_Full_Version/js/plugins/toastr/toastr.min.js"></script>
+<script src="js/plugins/toastr/toastr.min.js"></script>
 
 
 <script>
@@ -289,3 +244,4 @@ $result = $conn->query($sql);
 </script>
 </body>
 </html>
+

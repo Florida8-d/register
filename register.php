@@ -123,6 +123,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <!DOCTYPE html>
 <html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
+    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
+
+
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
+    <link href="css/animate.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+
+</head>
 <body class="gray-bg">
 
 <div class="middle-box text-center loginscreen animated fadeInDown">
@@ -167,7 +185,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <script src="js/jquery-3.1.1.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.js"></script>
+
+
+
+<!-- Data picker -->
+<script src="js/plugins/datapicker/bootstrap-datepicker.js"></script>
+
+
 <script src="js/plugins/iCheck/icheck.min.js"></script>
+
+<!-- Color picker -->
+<script src="js/plugins/colorpicker/bootstrap-colorpicker.min.js"></script>
+
+<!-- Clock picker -->
+<script src="js/plugins/clockpicker/clockpicker.js"></script>
+
 <!-- Date range use moment.js same as full calendar plugin -->
 <script src="js/plugins/fullcalendar/moment.min.js"></script>
 <!-- Date range picker -->
@@ -227,18 +259,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 </body>
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register</title>
 
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
-    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
-    <link href="css/animate.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
-</head>
 </html>
 
