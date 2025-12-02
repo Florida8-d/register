@@ -54,6 +54,8 @@ $result = $conn->query($sql);
 
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <?php require_once 'navbar.php'?>
+        <div class="ibox-content">
+        <div class="table-responsive">
 
         <table id="userTable" class="table table-bordered table-striped">
                         <thead class="table-light">
@@ -72,7 +74,9 @@ $result = $conn->query($sql);
                         </thead>
 
                     </table>
+        </div>
         <?php require_once 'footer.php'?>
+        </div>
     </div>
 </div>
 
@@ -85,7 +89,6 @@ $result = $conn->query($sql);
 <script src="js/plugins/dataTables/datatables.min.js"></script>
 <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
 
-<!-- Pastaj inicializo tabelën -->
 <script>
     $(document).ready(function() {
         $('#userTable').DataTable({
