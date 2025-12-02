@@ -27,7 +27,7 @@ $result = $conn->query($sql);
             <ul class="nav metismenu" id="side-menu">
             <li class="nav-header">
                 <div class="dropdown profile-element">
-                    <img alt="image" class="rounded-circle" src="img/profile_small.jpg"/>
+                    <img alt="image" class="rounded-circle" src="images/admin_img.jpg"/  style="width:50px; height:50px; object-fit: cover;">
                     <a data-toggle="dropdown" class="dropdown-toggle" href="#">
 
                         <span class="text-muted text-xs block">

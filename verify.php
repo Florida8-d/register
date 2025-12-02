@@ -1,30 +1,61 @@
 <?php
 session_start();
-include 'config.php';
+require_once "config.php";
 
+if (!isset($_SESSION['user'])) {
+    header("Location: login.php");
+    exit;
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $entered_code = trim($_POST['code']);
 
-    if (isset($_SESSION['verification_code']) && isset($_SESSION['register_data'])) {
-
-        if ($entered_code == $_SESSION['verification_code']) {
-            $data = $_SESSION['register_data'];
-
-
-            unset($_SESSION['verification_code']);
-
-            header("Location:index.php");
-
-            exit();
-        } else {
-            echo "<p style='color:red;'>Incorrect verification code!</p>";
-        }
-
-    } else {
-        echo "<p style='color:red;'>Session expired! Please register again.</p>";
+    if (!isset($_SESSION['verification_code'])) {
+        echo "<p style='color:red;'>Session expired! Please try again.</p>";
+        exit;
     }
+
+    if ($entered_code != $_SESSION['verification_code']) {
+        echo "<p style='color:red;'>Incorrect verification code!</p>";
+        exit;
+    }
+
+    if (isset($_SESSION['register_data'])) {
+
+        $data = $_SESSION['register_data'];
+
+        $stmt = $conn->prepare("UPDATE users SET email_verified = 1 WHERE email = ?");
+        $stmt->bind_param("s", $data['email']);
+        $stmt->execute();
+
+        unset($_SESSION['register_data']);
+        unset($_SESSION['verification_code']);
+
+        echo "<script>alert('Email verified! You can now login.'); window.location='login.php';</script>";
+        exit;
+    }
+
+    if (isset($_SESSION['verify_email'])) {
+
+        $email = $_SESSION['verify_email'];
+
+
+        $stmt = $conn->prepare("UPDATE users SET email_verified = 1 WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+
+
+        unset($_SESSION['verify_email']);
+        unset($_SESSION['verification_code']);
+
+        echo "<script>alert('Email verified! Logging you in...'); window.location='login.php';</script>";
+        exit;
+    }
+
+    echo "<p style='color:red;'>Session expired! Try again.</p>";
+    exit;
 }
 ?>
+
 <html>
 
 <head>

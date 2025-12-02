@@ -136,6 +136,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
     <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
+
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
@@ -159,7 +161,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="email" name="email" class="form-control" placeholder="Email" required>
             </div>
             <div class="form-group">
-                <input type="text" name="adress" class="form-control" placeholder="Address" required>
+                <input type="text" name="address" class="form-control" placeholder="Address" required>
             </div>
             <div class="form-group">
                 <input type="text" name="birthday"  class="form-control" value="2004-01-01" placeholder="Birthday" required  />

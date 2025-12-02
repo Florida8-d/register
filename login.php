@@ -2,6 +2,14 @@
 session_start();
 require_once "config.php";
 
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+
+require 'PHPMailer/src/PHPMailer.php';
+require 'PHPMailer/src/SMTP.php';
+require 'PHPMailer/src/Exception.php';
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $email = trim($_POST['email']);
@@ -18,36 +26,65 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $result = $stmt->get_result();
 
     if ($result->num_rows) {
+
         $user = $result->fetch_assoc();
 
-        if (password_verify($password, $user['password'])) {
+        if (!password_verify($password, $user['password'])) {
+            echo "<script>alert('Invalid email or password');</script>";
+            exit;
+        }
 
-            $_SESSION['user'] = [
-                'id' => $user['id'],
-                'name' => $user['name'],
-                'email' => $email,
-                'role' => $user['role']
-            ];
+        if ($user['email_verified'] == 0) {
 
-            if ($user['role'] === 'admin') {
-                header("Location: admin_dashboard.php");
+            $verification_code = rand(100000, 999999);
+
+            $_SESSION['verification_code'] = $verification_code;
+            $_SESSION['verify_email'] = $email;
+
+            $mail = new PHPMailer(true);
+            try {
+                $mail->isSMTP();
+                $mail->Host = 'smtp.gmail.com';
+                $mail->SMTPAuth = true;
+                $mail->Username = 'florartflorart88@gmail.com';
+                $mail->Password = 'dfsc lkgb tjrx aayc';
+                $mail->SMTPSecure = 'tls';
+                $mail->Port = 587;
+                $mail->setFrom('florartflorart88@gmail.com', 'Florart');
+                $mail->addAddress($email);
+                $mail->isHTML(true);
+                $mail->Subject = 'Verify your email';
+                $mail->Body = "Your verification code is: <b>$verification_code</b>";
+                $mail->send();
+
+                header("Location: verify.php");
                 exit;
-            } else {
-                header("Location: index.php");
+
+            } catch (Exception $e) {
+                echo "Email could not be sent. Error: {$mail->ErrorInfo}";
                 exit;
             }
-
-        } else {
-            echo "<script>alert('Invalid email or password');</script>";
         }
-    } else {
-        echo "<script>alert('Invalid email or password');</script>";
+
+        $_SESSION['user'] = [
+            'id' => $user['id'],
+            'name' => $user['name'],
+            'email' => $email,
+            'role' => $user['role']
+        ];
+
+        if ($user['role'] === 'admin') {
+            header("Location: admin_dashboard.php");
+        } else {
+            header("Location: index.php");
+        }
+        exit;
     }
 
-    $stmt->close();
-    $conn->close();
+    echo "<script>alert('Invalid email or password');</script>";
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
