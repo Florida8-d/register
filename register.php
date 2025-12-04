@@ -134,8 +134,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
     <link href="css/plugins/iCheck/custom.css" rel="stylesheet">
 
+    <link href="css/plugins/datapicker/datepicker3.css" rel="stylesheet">
 
     <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
 
 
@@ -164,8 +166,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" name="address" class="form-control" placeholder="Address" required>
             </div>
             <div class="form-group">
-                <input type="text" name="birthday"  class="form-control" value="2004-01-01" placeholder="Birthday" required  />
+                <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span><input type="text" class="form-control" value="03/04/2014" name="birthday">
+                </div>
             </div>
+
             <div class="form-group">
                 <input type="password" name="password" class="form-control" placeholder="Password" required>
             </div>
@@ -173,10 +178,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="password" name="confirmpassword" class="form-control" placeholder="Confirm Password" required>
             </div>
             <div class="form-group">
-                <div class="checkbox i-checks"><label> <input type="checkbox"><i></i> Agree the terms and policy </label></div>
+                <div class="checkbox i-checks"><label> <input required name="chackbox" type="checkbox"><i></i> Agree the terms and policy </label></div>
             </div>
     </div>
-    <button type="submit" class="btn btn-primary block full-width m-b">Register</button>
+    <button type="submit" class="btn btn-primary block full-width m-b"  onsubmit="return checkCheckBoxes">Register</button>
 
     <p class="text-muted text-center"><small>Already have an account?</small></p>
     <a class="btn btn-sm btn-white btn-block" href="login.php">Login</a>
@@ -216,9 +221,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             radioClass: 'iradio_square-green',
         });
 
-        $('input[name="birthday"]').daterangepicker({
-            singleDatePicker: true
-       });
+        function checkCheckBoxes(theForm) {
+            if (
+                theForm.MyCheckbox.checked == false)
+            {
+                alert ('You didn\'t choose any of the checkboxes!');
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        var yearsAgo = new Date();
+        yearsAgo.setFullYear(yearsAgo.getFullYear() - 20);
+
+        $('#selector').datepicker('setDate', yearsAgo );
+        $('input[name="birthday"]').datepicker({
+            startView: 1,
+            todayBtn: "linked",
+            keyboardNavigation: false,
+            forceParse: false,
+            autoclose: true,
+            format: "dd/mm/yyyy"       });
+
 
         function validateNameSurname() {
             const name = document.querySelector('input[name="name"]').value.trim();

@@ -2,10 +2,11 @@
 
 require_once "config.php";
 
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
+if ($_SESSION['user']['role'] != 'admin') {
+    header("Location: index.php");
     exit;
 }
+
 
 if ($_SESSION['user']['role'] != 'admin') {
     header("Location: index.php");

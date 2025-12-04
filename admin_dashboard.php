@@ -55,21 +55,24 @@ $result = $conn->query($sql);
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <?php require_once 'navbar.php'?>
         <div class="ibox-content">
+        </div>
+        <div class="ibox-content">
         <div class="table-responsive">
 
         <table id="userTable" class="table table-bordered table-striped">
                         <thead class="table-light">
+                        <tr class="filter-row">
                         <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Surname</th>
-                            <th>Email</th>
-                            <th>Address</th>
-                            <th>Role</th>
-                            <th>Birthday</th>
-                            <th>Verification</th>
+                            <th class="display-order">Id</th>
+                            <th class="display-order">Name</th>
+                            <th class="display-order">Surname</th>
+                            <th class="display-order">Email</th>
+                            <th class="display-order">Address</th>
+                            <th class="display-order">Role</th>
+                            <th class="display-order">Birthday</th>
+                            <th class="display-order">Verification</th>
 
-
+                        </tr>
                         </tr>
                         </thead>
 
@@ -108,6 +111,7 @@ $result = $conn->query($sql);
             { "data": "email_verified" }
         ]
     });
+
 
 </script>
 
