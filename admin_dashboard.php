@@ -90,21 +90,25 @@ $result = $conn->query($sql);
 <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
 
 <script>
-    $(document).ready(function() {
-        $('#userTable').DataTable({
-            "ajax": "fetch_users.php",
-            "columns": [
-                { "data": "id" },
-                { "data": "name" },
-                { "data": "surname" },
-                { "data": "email" },
-                { "data": "address" },
-                { "data": "role" },
-                { "data": "birthday" },
-                { "data": "email_verified" }
-            ]
-        });
+    $('#userTable').DataTable({
+        "processing": true,
+        "serverSide": true,
+        "ajax": {
+            "url": "fetch_users.php",
+            "type": "POST"
+        },
+        "columns": [
+            { "data": "id" },
+            { "data": "name" },
+            { "data": "surname" },
+            { "data": "email" },
+            { "data": "address" },
+            { "data": "role" },
+            { "data": "birthday" },
+            { "data": "email_verified" }
+        ]
     });
+
 </script>
 
 

@@ -7,14 +7,12 @@ if (!isset($_SESSION['user'])) {
 
 require_once "config.php";
 
-$records_per_page = 10;
-$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
-
-
-$offset = ($page - 1) * $records_per_page;
+$start = isset($_POST['start']) ? (int)$_POST['start'] : 0;
+$length = isset($_POST['length']) ? (int)$_POST['length'] : 10;
+$draw = isset($_POST['draw']) ? (int)$_POST['draw'] : 0;
 
 $stmt = $conn->prepare("SELECT * FROM users ORDER BY id ASC LIMIT ?, ?");
-$stmt->bind_param("ii", $offset, $records_per_page);
+$stmt->bind_param("ii", $start, $length);
 $stmt->execute();
 $result = $stmt->get_result();
 
@@ -23,5 +21,11 @@ while ($row = $result->fetch_assoc()) {
     $user[] = $row;
 }
 
+$total = $conn->query("SELECT COUNT(*) FROM users")->fetch_row()[0];
 
-echo json_encode(['data' => $user]);
+echo json_encode([
+    "draw" => $draw,
+    "recordsTotal" => $total,
+    "recordsFiltered" => $total,
+    "data" => $user
+]);
