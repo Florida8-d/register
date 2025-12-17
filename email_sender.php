@@ -1,33 +1,36 @@
 <?php
+
 use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+
 
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 require 'PHPMailer/src/Exception.php';
 
-function sendEmail($toEmail, $subject, $bodyHtml) {
+
+function sendEmail($toEmail,$verification_code)
+{
+
     $mail = new PHPMailer(true);
 
-    try {
-        $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com';
-        $mail->SMTPAuth = true;
-        $mail->Username = 'florartflorart88@gmail.com';
-        $mail->Password = 'dfsc lkgb tjrx aayc';
-        $mail->SMTPSecure = 'tls';
-        $mail->Port = 587;
+    $mail->isSMTP();
+    $mail->Host = 'smtp.gmail.com';
+    $mail->SMTPAuth = true;
 
-        $mail->setFrom('florartflorart88@gmail.com', 'Florart');
-        $mail->addAddress($toEmail);
+    $mail->Username = 'florartflorart88@gmail.com';
+    $mail->Password = 'dfsc lkgb tjrx aayc';
 
-        $mail->isHTML(true);
-        $mail->Subject = $subject;
-        $mail->Body    = $bodyHtml;
+    $mail->SMTPSecure = 'tls';
+    $mail->Port = 587;
 
-        return $mail->send();
+    $mail->setFrom('florartflorart88@gmail.com', 'Florart');
+    $mail->addAddress($toEmail);
 
-    } catch (Exception $e) {
-        return false;
-    }
+    $mail->isHTML(true);
+    $mail->Subject = 'Verification Code';
+    $mail->Body = 'Your verification code is: <b>' . $verification_code . '</b>';
+
+    $mail->send();
+
 }
+

@@ -1,58 +1,36 @@
 <?php
 session_start();
 require_once "config.php";
+require_once "functions.php";
+
 
 if (!isset($_SESSION['user'])) {
     header("Location: login.php");
     exit;
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $entered_code = trim($_POST['code']);
+    trimArrayParams($_POST);
 
-    if (!isset($_SESSION['verification_code'])) {
-        echo "<p style='color:red;'>Session expired! Please try again.</p>";
-        exit;
-    }
 
-    if ($entered_code != $_SESSION['verification_code']) {
-        echo "<p style='color:red;'>Incorrect verification code!</p>";
-        exit;
-    }
+    $errors = [];
 
-    if (isset($_SESSION['register_data'])) {
-
-        $data = $_SESSION['register_data'];
-
-        $stmt = $conn->prepare("UPDATE users SET email_verified = 1 WHERE email = ?");
-        $stmt->bind_param("s", $data['email']);
-        $stmt->execute();
-
-        unset($_SESSION['register_data']);
-        unset($_SESSION['verification_code']);
-
-        echo "<script>alert('Email verified! You can now login.'); window.location='login.php';</script>";
-        exit;
-    }
-
-    if (isset($_SESSION['verify_email'])) {
-
-        $email = $_SESSION['verify_email'];
+    if (!isset($_SESSION['verification_code']) || $_POST['code'] != $_SESSION['verification_code']) {
+        $errors['code'] = "Invalid or expired code.";
+    }else{
 
 
         $stmt = $conn->prepare("UPDATE users SET email_verified = 1 WHERE email = ?");
-        $stmt->bind_param("s", $email);
+        $stmt->bind_param("s", $SESSION['user_id']);
         $stmt->execute();
+        $stmt->close();
 
 
-        unset($_SESSION['verify_email']);
-        unset($_SESSION['verification_code']);
 
-        echo "<script>alert('Email verified! Logging you in...'); window.location='login.php';</script>";
+        header("Location: index.php");
         exit;
+
     }
 
-    echo "<p style='color:red;'>Session expired! Try again.</p>";
-    exit;
 }
 ?>
 
@@ -75,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 <div class="middle-box text-center loginscreen animated fadeInDown form-group"">
     <form method="post">
-        <input type="text" name="code" class="form-control" placeholder="Enter verification code" style="margin-top: 180;" required>
+        <input type="text" name="code" id="code" class="form-control" placeholder="Enter verification code" style="margin-top: 180;" required>
         <button type="submit" class="btn btn-primary block full-width m-b" style="margin-top:34px;">Verify</button>
     </form>
 </div>

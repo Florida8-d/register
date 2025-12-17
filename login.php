@@ -1,90 +1,62 @@
 <?php
 session_start();
 require_once "config.php";
+require_once "functions.php";
+require_once "email_sender.php";
 
-use PHPMailer\PHPMailer\PHPMailer;
-use PHPMailer\PHPMailer\Exception;
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-require 'PHPMailer/src/PHPMailer.php';
-require 'PHPMailer/src/SMTP.php';
-require 'PHPMailer/src/Exception.php';
+    trimArrayParams($_POST);
+    $errors = [];
+
+    if (empty($_POST['email']) || empty($_POST['password'])) {
+        $errors['email'] = "Please fill in all fields.";
+    } else {
+
+        $stmt = $conn->prepare("SELECT id, password, role, email_verified FROM users WHERE email = ?");
+        $stmt->bind_param("s", $_POST['email']);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+
+            $user = $result->fetch_assoc();
+
+            if (!password_verify($_POST['password'], $user['password'])) {
+                $errors['password'] = "Invalid email or password.";
+            } else {
+
+                if ($user['email_verified'] == 0) {
+
+                    $verification_code = random();
+
+                    $_SESSION['verification_code'] = $verification_code;
+                    $_SESSION['user_id'] = $user['id'];
+
+                    sendEmail($_POST['email'], $verification_code);
+                    //mbishkrimi i kodit te ri
+                    $stmt = $conn->prepare("INSERT INTO `users` (verificationCode) VALUES (?)");
 
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $email = trim($_POST['email']);
-    $password = trim($_POST['password']);
+                    header("Location: verify.php");
+                    exit;
+                } else {
+                    $_SESSION['user'] = ['id' => $user['id'], 'role' => $user['role']];
 
-    if (empty($email) || empty($password)) {
-        echo "<script>alert('Please fill in all fields');</script>";
-        exit;
-    }
-
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ?");
-    $stmt->bind_param("s", $email);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows) {
-
-        $user = $result->fetch_assoc();
-
-        if (!password_verify($password, $user['password'])) {
-            echo "<script>alert('Invalid email or password');</script>";
-            exit;
-        }
-
-        if ($user['email_verified'] == 0) {
-
-            $verification_code = rand(100000, 999999);
-
-            $_SESSION['verification_code'] = $verification_code;
-            $_SESSION['verify_email'] = $email;
-
-            $mail = new PHPMailer(true);
-            try {
-                $mail->isSMTP();
-                $mail->Host = 'smtp.gmail.com';
-                $mail->SMTPAuth = true;
-                $mail->Username = 'florartflorart88@gmail.com';
-                $mail->Password = 'dfsc lkgb tjrx aayc';
-                $mail->SMTPSecure = 'tls';
-                $mail->Port = 587;
-                $mail->setFrom('florartflorart88@gmail.com', 'Florart');
-                $mail->addAddress($email);
-                $mail->isHTML(true);
-                $mail->Subject = 'Verify your email';
-                $mail->Body = "Your verification code is: <b>$verification_code</b>";
-                $mail->send();
-
-                header("Location: verify.php");
-                exit;
-
-            } catch (Exception $e) {
-                echo "Email could not be sent. Error: {$mail->ErrorInfo}";
-                exit;
+                    if ($user['role'] === 'admin') {
+                        header("Location: admin_dashboard.php");
+                    } else {
+                        header("Location: index.php");
+                    }
+                    exit;
+                }
             }
-        }
 
-        $_SESSION['user'] = [
-            'id' => $user['id'],
-            'name' => $user['name'],
-            'email' => $email,
-            'role' => $user['role']
-        ];
-
-        if ($user['role'] === 'admin') {
-            header("Location: admin_dashboard.php");
-        } else {
-            header("Location: index.php");
         }
-        exit;
     }
-
-    echo "<script>alert('Invalid email or password');</script>";
 }
 ?>
-
 
 <!DOCTYPE html>
 <html>
@@ -93,7 +65,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -122,7 +93,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-group">
                 <input type="password" name="password" class="form-control" placeholder="Password" required="">
             </div>
-
 
 
             <button type="submit" class="btn btn-primary block full-width m-b">Login</button>

@@ -15,10 +15,7 @@ if (!isset($_SESSION['user'])) {
     exit;
 }
 
-if ($_SESSION['user']['role'] != 'user') {
-    header("Location: index.php");
-    exit;
-}
+
 
 if (isset($_SESSION['register_data'])) {
     unset($_SESSION['register_data']);

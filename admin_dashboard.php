@@ -39,12 +39,11 @@ $result = $conn->query($sql);
 
     <link href="css/plugins/dataTables/datatables.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.1/css/dataTables.bootstrap4.min.css">
-
+    <link href="css/plugins/daterangepicker/daterangepicker-bs3.css" rel="stylesheet">
 
 
     <link href="css/animate.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
-
 
 </head>
 
@@ -54,30 +53,112 @@ $result = $conn->query($sql);
 
     <div id="page-wrapper" class="gray-bg dashbard-1">
         <?php require_once 'navbar.php'?>
-        <div class="ibox-content">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>Filters</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label for="firstname">Firstname</label>
+                                    <input type="text" class="form-control" name="name" id="name"/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="lastname">Lastname</label>
+                                    <input type="text" class="form-control" name="surname" id="surname"/>
+                                </div>
+                                <div class="col-sm-3">
+                                    <label for="birthday">Birthday</label>
+                                    <input type="text" class="form-control" name="birthday" id="birthday" autocomplete="off"/>
+                                </div>
+                                <div class="col-sm-1">
+                                    <label>&nbsp;&nbsp;&nbsp;&nbsp;</label>
+                                    <button class="btn btn-outline-primary" id="btn-filter">Filter</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox">
+                        <div class="ibox-title">
+                            <h5>USERS</h5>
+                            <div class="ibox-tools">
+                                <a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                                <a class="dropdown-toggle" data-toggle="dropdown">
+                                    <i class="fa fa-wrench"></i>
+
+                                </a>
+                                <ul class="dropdown-menu p-3" style="width:250px;">
+                                    <li>
+                                        <input type="text" id="filterName" class="form-control mb-2" placeholder="Filter Name">
+                                    </li>
+                                    <li>
+                                        <input type="text" id="filterSurname" class="form-control mb-2" placeholder="Filter Surname">
+                                    </li>
+                                    <li>
+                                        <input type="text" id="filterEmail" class="form-control mb-2" placeholder="Filter Email">
+                                    </li>
+                                    <li>
+                                        <input type="text" id="filterAddress" class="form-control mb-2" placeholder="Filter Address">
+                                    </li>
+                                    <li>
+                                        <input type="text" id="filterRole" class="form-control mb-2" placeholder="Filter Role">
+                                    </li>
+
+
+                                    <li>
+                                        <div class="form-group" id="data_5">
+                                            <div class="input-daterange input-group" id="datepicker">
+                                                <input type="text" class="form-control-sm form-control" id="start" name="start"/>
+                                                <span class="input-group-addon">to</span>
+                                                <input type="text" class="form-control-sm form-control" id="end" name="end"/>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li>
+                                        <button id="applyFilter">Apply</button>
+                                        <button id="clearFilter">Clear</button>
+                                    </li>
+
+
+                                </ul>
+                                <a class="close-link"><i class="fa fa-times"></i></a>
+                            </div>
+                        </div>
+
+                        <div class="ibox-content">
+                            <div class="table-responsive">
+                                <table id="userTable" class="table table-bordered table-striped">
+                                    <thead class="table-light">
+                                    <tr>
+                                        <th class="display-order">Id</th>
+                                        <th class="display-order">Name</th>
+                                        <th class="display-order">Surname</th>
+                                        <th class="display-order">Email</th>
+                                        <th class="display-order">Address</th>
+                                        <th class="display-order">Role</th>
+                                        <th class="display-order">Birthday</th>
+                                        <th class="display-order">Verification</th>
+                                    </tr>
+                                    </thead>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="ibox-content">
-        <div class="table-responsive">
 
-        <table id="userTable" class="table table-bordered table-striped">
-                        <thead class="table-light">
-                        <tr class="filter-row">
-                        <tr>
-                            <th class="display-order">Id</th>
-                            <th class="display-order">Name</th>
-                            <th class="display-order">Surname</th>
-                            <th class="display-order">Email</th>
-                            <th class="display-order">Address</th>
-                            <th class="display-order">Role</th>
-                            <th class="display-order">Birthday</th>
-                            <th class="display-order">Verification</th>
-
-                        </tr>
-                        </tr>
-                        </thead>
-
-                    </table>
-        </div>
         <?php require_once 'footer.php'?>
         </div>
     </div>
@@ -87,135 +168,97 @@ $result = $conn->query($sql);
 <script src="js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="js/popper.min.js"></script>
 <script src="js/bootstrap.js"></script>
+<script src="js/plugins/metisMenu/jquery.metisMenu.js"></script>
+<script src="js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 <!-- DataTables JS -->
 <script src="js/plugins/dataTables/datatables.min.js"></script>
 <script src="js/plugins/dataTables/dataTables.bootstrap4.min.js"></script>
+<script src="js/inspinia.js"></script>
+<script src="js/plugins/pace/pace.min.js"></script>
+<!-- Data picker -->
+<script src="js/plugins/fullcalendar/moment.min.js"></script>
+<script src="js/plugins/daterangepicker/daterangepicker.js"></script>
 
 <script>
-    $('#userTable').DataTable({
-        "processing": true,
-        "serverSide": true,
-        "ajax": {
-            "url": "fetch_users.php",
-            "type": "POST"
-        },
-        "columns": [
-            { "data": "id" },
-            { "data": "name" },
-            { "data": "surname" },
-            { "data": "email" },
-            { "data": "address" },
-            { "data": "role" },
-            { "data": "birthday" },
-            { "data": "email_verified" }
-        ]
+    let table;
+
+    $(document).ready(function () {
+
+        table = $('#userTable').DataTable({
+            processing: true,
+            serverSide: true,
+            searching: false,
+            ajax: {
+                url: "fetch_users.php",
+                type: "POST",
+                data: function (d) {
+                    d.filters = {
+                        strings: {
+                            name: $('#name').val(),
+                            surname: $('#surnname').val(),
+                        },
+                        dates: {
+                            birthday: $('#birthday').val()
+                        }
+                    }
+                }
+            },
+            columns: [
+                { data: "id" },
+                { data: "name" },
+                { data: "surname" },
+                { data: "email" },
+                { data: "address" },
+                { data: "role" },
+                { data: "birthday" },
+                { data: "email_verified" }
+            ]
+        });
+
+        $("#btn-filter").click(function(){
+            table.draw();
+        });
+
+        $("#birthday").daterangepicker({
+            autoApply: false
+        }, function (start, end, label) {
+            $("#birthday").val(start.format("YYYY-MM-DD") + " - " + end.format("YYYY-MM-DD"))
+        });
+
+
+        // $('#applyFilter').on('click', function () {
+        //     table.page('first').draw('page');
+        // });
+        //
+        // $('#clearFilter').on('click', function () {
+        //     $('#filterName, #filterSurname, #filterEmail, #filterAddress,#start,#end').val('');
+        //     table.page('first').draw('page');
+        // });
+
+
+
     });
+
+
+    $('.close-link').click(function () {
+        var ibox = $(this).closest('.ibox');
+        ibox.remove();
+    });
+
+
+
+
+
+
+
+
 
 
 </script>
 
 
-<script>
-    $(document).ready(function() {
-        setTimeout(function() {
-            toastr.options = {
-                closeButton: true,
-                progressBar: true,
-                showMethod: 'slideDown',
-                timeOut: 4000
-            };
-            toastr.success('Responsive Admin Theme', 'Welcome to INSPINIA');
 
-        }, 1300);
-
-
-        var data1 = [
-            [0,4],[1,8],[2,5],[3,10],[4,4],[5,16],[6,5],[7,11],[8,6],[9,11],[10,30],[11,10],[12,13],[13,4],[14,3],[15,3],[16,6]
-        ];
-        var data2 = [
-            [0,1],[1,0],[2,2],[3,0],[4,1],[5,3],[6,1],[7,5],[8,2],[9,3],[10,2],[11,1],[12,0],[13,2],[14,8],[15,0],[16,0]
-        ];
-        $("#flot-dashboard-chart").length && $.plot($("#flot-dashboard-chart"), [
-                data1, data2
-            ],
-            {
-                series: {
-                    lines: {
-                        show: false,
-                        fill: true
-                    },
-                    splines: {
-                        show: true,
-                        tension: 0.4,
-                        lineWidth: 1,
-                        fill: 0.4
-                    },
-                    points: {
-                        radius: 0,
-                        show: true
-                    },
-                    shadowSize: 2
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true,
-                    tickColor: "#d5d5d5",
-                    borderWidth: 1,
-                    color: '#d5d5d5'
-                },
-                colors: ["#1ab394", "#1C84C6"],
-                xaxis:{
-                },
-                yaxis: {
-                    ticks: 4
-                },
-                tooltip: false
-            }
-        );
-
-        var doughnutData = {
-            labels: ["App","Software","Laptop" ],
-            datasets: [{
-                data: [300,50,100],
-                backgroundColor: ["#a3e1d4","#dedede","#9CC3DA"]
-            }]
-        } ;
-
-
-        var doughnutOptions = {
-            responsive: false,
-            legend: {
-                display: false
-            }
-        };
-
-
-        var ctx4 = document.getElementById("doughnutChart").getContext("2d");
-        new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
-
-        var doughnutData = {
-            labels: ["App","Software","Laptop" ],
-            datasets: [{
-                data: [70,27,85],
-                backgroundColor: ["#a3e1d4","#dedede","#9CC3DA"]
-            }]
-        } ;
-
-
-        var doughnutOptions = {
-            responsive: false,
-            legend: {
-                display: false
-            }
-        };
-
-
-        var ctx4 = document.getElementById("doughnutChart2").getContext("2d");
-        new Chart(ctx4, {type: 'doughnut', data: doughnutData, options:doughnutOptions});
-
-    });
-</script>
 </body>
 </html>
 
